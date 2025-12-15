@@ -17,7 +17,13 @@ class ListManager {
         this.container = document.querySelector(container);
         this.addList = this.addList.bind(this);
         this.addToList = this.addToList.bind(this);
+        this.init();
         this.render();
+    }
+
+    init() {
+        this.addList("Default");
+        console.log(this.dataStorage);
     }
 
     addList(name) {
@@ -27,7 +33,7 @@ class ListManager {
     }
 
     addToList(listName, task) {
-        const listObj = this.dataStorage.find(item => item.name === listName);
+        const listObj = this.dataStorage.find(item => item.name.toLowerCase() === listName.toLowerCase());
         if(listObj) {
             listObj.tasks.push(task);
             this.render();
