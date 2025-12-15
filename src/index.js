@@ -1,5 +1,8 @@
+import "./styles.css";
+
 class TodoItem {
     constructor(title, description, dueDate, priority, notes) {
+        this.id = crypto.randomUUID();
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
@@ -8,43 +11,94 @@ class TodoItem {
     }
 }
 
-class TodoList {
-    constructor(formId, container) {
-        this.items = [];
-        this.formId = document.querySelector(formId);
+class ListManager {
+    constructor(container) {
+        this.dataStorage = [];
         this.container = document.querySelector(container);
-        this.formId.addEventListener("submit", this.handleSubmit.bind(this));
+        this.addList = this.addList.bind(this);
+        this.addToList = this.addToList.bind(this);
         this.render();
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const data = Object.fromEntries(formData.entries());
-        this.addItem(data.title, data.description, data.dueDate, data.priority, data.notes);
-        e.target.reset();
+    addList(name) {
+        const newList = { name: name, tasks: [] };
+        this.dataStorage.push(newList);
+        this.render()
     }
 
-    addItem(title, description, dueDate, priority, notes) {
-        const todoItem = new TodoItem(title, description, dueDate, priority, notes);
-        this.items.push(todoItem);
-        this.render();
-        console.log(this.items);
+    addToList(listName, task) {
+        const listObj = this.dataStorage.find(item => item.name === listName);
+        if(listObj) {
+            listObj.tasks.push(task);
+            this.render();
+        } else {
+            console.error(`List "${listName}" not found.`);
+        }
     }
 
     render() {
         this.container.replaceChildren();
-        this.items.forEach(item => {
-            const card = document.createElement("div");
-            card.innerHTML = `
-            <h3>${item.title}</h3>
-            <p>${item.description}</p>
-            <p>${item.dueDate}</p>
-            <p>${item.priority}</p>
-            <p>${item.notes}</p>`;
-            this.container.appendChild(card);
+        this.dataStorage.forEach(item => {
+            const list = document.createElement("div");
+            list.classList.add("list-item");
+            list.innerHTML = `
+            <h2>${item.name}</h2>`
+            
+            if(item.tasks.length > 0) {
+                list.innerHTML += `<h3>Tasks</h3>
+                <ul class="taskListContainer">${item.tasks.map(task => 
+                `<li id="${task.id}">
+                <h3 class="title">${task.title}</h3>
+                <p class="description">${task.description}</p>
+                <p class="dueDate">${task.dueDate}</p>
+                <p class="priority">${task.priority}</p>
+                <p class="notes">${task.notes}</p>
+                </li>`
+            ).join("")}</ul>`
+            }
+            this.container.appendChild(list);
         })
     }
 }
 
-const todoManager = new TodoList("#todo-form", "#container");
+class FormHandler {
+    constructor(formId) {
+        this.form = document.querySelector(formId);
+        this.form.addEventListener("submit", this.handleSubmit.bind(this));
+    }
+
+    processData(data) {
+        throw new Error("processData must be implemented by a subclass.");
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target).entries());
+        this.processData(data);
+        e.target.reset();
+    }
+}
+
+class ListCreationHandler extends FormHandler{
+    processData(data) {
+        listManager.addList(data.name);
+    }
+}
+
+class TodoItemCreationHandler extends FormHandler {
+    processData(data) {
+        const todoItem = new TodoItem(
+            data.title,
+            data.description,
+            data.dueDate,
+            data.priority,
+            data.notes
+        )
+        console.log(todoItem);
+        listManager.addToList(data.listName, todoItem);
+    }
+}
+
+const listManager = new ListManager("#lists-container");
+const listFormHandler = new ListCreationHandler("#todo-list-form");
+const TodoFormHandler = new TodoItemCreationHandler("#todo-form");
