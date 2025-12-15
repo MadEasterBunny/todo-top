@@ -6,6 +6,36 @@
     <title>Todo List</title>
 </head>
 <body>
+    <div id="container"></div>
+    <form action="" id="todo-form">
+        <div>
+            <label for="title">Title</label>
+            <input id="title" type="text" name="title" placeholder="Title">
+        </div>
+        <div>
+            <label for="description">Description</label>
+            <input id="description" type="text" name="description" placeholder="Description">
+        </div>
+        <div>
+            <label for="dueDate">Due Date</label>
+            <input id="dueDate" type="date" name="dueDate">
+        </div>
+        <div>
+            <label for="priority">Priority</label>
+            <select name="priority" id="priority">
+                <option value="high" selected>High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+            </select>
+        </div>
+        <div>
+            <label for="notes">Notes</label>
+            <textarea name="notes" id="notes"></textarea>
+        </div>
+        <div>
+            <button>Submit</button>
+        </div>
+    </form>
     
 </body>
 </html>
