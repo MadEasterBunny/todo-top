@@ -24,10 +24,14 @@ export class ListManager {
                 <ul class="taskListContainer">${item.tasks.map(task => 
                 `<li id="${task.id}">
                 <h3 class="title">${task.title}</h3>
-                <p class="description">${task.description}</p>
                 <p class="dueDate">${task.dueDate}</p>
+                <input type="checkbox" checked>
+                <i></i>
+                <div>
+                <p class="description">${task.description}</p>
                 <p class="priority">${task.priority}</p>
                 <p class="notes">${task.notes}</p>
+                </div>
                 </li>`
             ).join("")}</ul>`
             }
