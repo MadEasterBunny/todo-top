@@ -7,7 +7,13 @@ export class ListManager {
     }
 
     init() {
-        this.dataManager.addList("All Tasks");
+        const listItems = this.dataManager.getLists();
+        const exists = listItems.some(list => list.name === "All Tasks")
+        if(!exists) {
+            this.dataManager.addList("All Tasks");
+        } else {
+            return
+        }
     }
 
     render() {
