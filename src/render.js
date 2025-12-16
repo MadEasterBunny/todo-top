@@ -1,4 +1,4 @@
-export default class ListManager {
+export class ListManager {
     constructor(dataManager, container) {
         this.dataManager = dataManager;
         this.container = document.querySelector(container);
@@ -7,7 +7,7 @@ export default class ListManager {
     }
 
     init() {
-        this.dataManager.addList("Default");
+        this.dataManager.addList("All Tasks");
     }
 
     render() {
@@ -36,7 +36,16 @@ export default class ListManager {
     }
 }
 
-//Create class for rendering forms (Create List && Add Task)
+export class DialogRenderer {
+    openDialog(dialog) {
+        dialog.showModal();
+    }
+
+    closeDialog(dialog) {
+        dialog.close();
+    }
+}
+
 
 //Change the appearance of lists to each individual list when list is clicked
 //Display a list of the tasks assigned to that list
