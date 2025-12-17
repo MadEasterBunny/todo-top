@@ -1,4 +1,5 @@
-import { DialogRenderer } from "./render";
+import DataManager from "./dataManager";
+import { ListManager, DialogRenderer } from "./render";
 
 export class FormHandler {
     constructor(formId) {
@@ -19,21 +20,43 @@ export class FormHandler {
 }
 
 export class DialogHandler {
-    constructor(displayBtn, dialog, closeBtn) {
+    constructor(displayBtn, dialog, dialogRenderer, formId) {
         this.displayBtn = document.querySelector(displayBtn);
         this.dialog = document.querySelector(dialog);
-        this.closeBtn = document.querySelector(closeBtn);
+        this.dialogRenderer = dialogRenderer;
+        this.form = document.querySelector(formId);
+        this.closeBtn = document.querySelectorAll(".close");
         this.displayBtn?.addEventListener("click", () => this.open());
-        this.closeBtn?.addEventListener("click", () => this.close());
+        this.closeBtn?.forEach(btn => {
+            btn.addEventListener("click", this.close.bind(this));
+        })
     }
 
     open() {
-        dialogRenderer.openDialog(this.dialog);
+        this.dialogRenderer.openDialog(this.dialog);
     }
 
     close() {
-        dialogRenderer.closeDialog(this.dialog);
+        this.form.reset();
+        this.dialogRenderer.closeDialog(this.dialog);
     }
 }
 
-const dialogRenderer = new DialogRenderer();
+export class TaskHandler {
+    constructor(dataManager, listManager) {
+        this.dataManager = dataManager;
+        this.listManager = listManager;
+        
+        document.addEventListener("click", (e) => {
+            if(e.target.matches(".remove")) {
+                this.remove(e);
+            }
+        })
+    }
+
+    remove(e) {
+        const todoId = e.target.closest(".todo-item").id;
+        this.dataManager.removeFromList(todoId);
+        this.listManager.render();
+    }
+}

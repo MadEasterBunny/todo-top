@@ -22,13 +22,15 @@ export class ListManager {
         lists.forEach(item => {
             const list = document.createElement("div");
             list.classList.add("list-item");
+            list.id = item.id;
             list.innerHTML = `
             <h2>${item.name}</h2>`
             
             if(item.tasks.length > 0) {
                 list.innerHTML += `<h3>Tasks</h3>
-                <ul class="taskListContainer">${item.tasks.map(task => 
-                `<li id="${task.id}">
+                <div class="taskListContainer">${item.tasks.map(task => 
+                `<div id="${task.id}" class="todo-item">
+                <div>
                 <h3 class="title">${task.title}</h3>
                 <p class="dueDate">${task.dueDate}</p>
                 <input type="checkbox" checked>
@@ -38,8 +40,10 @@ export class ListManager {
                 <p class="priority">${task.priority}</p>
                 <p class="notes">${task.notes}</p>
                 </div>
-                </li>`
-            ).join("")}</ul>`
+                </div>
+                <button class="remove">Remove</button>
+                </div>`
+            ).join("")}</div>`
             }
             this.container.appendChild(list);
         })

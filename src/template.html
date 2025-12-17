@@ -11,13 +11,13 @@
             <h2>Create List</h2>
             <div>
                 <label for="name">List Name</label>
-                <input id="name" type="text" name="name" placeholder="List Name">
+                <input id="name" type="text" name="name" placeholder="List Name" required>
             </div>
             <div>
                 <button>Submit</button>
             </div>
             <div>
-                <button type="button" id="close-lists-dialog">Close</button>
+                <button type="button" class="close">Close</button>
             </div>
         </form>
     </dialog>
@@ -27,11 +27,11 @@
             <h2>Add Task</h2>
             <div>
                 <label for="listName">List to Add to</label>
-                <input id="listName" type="text" name="listName" placeholder="List name">
+                <input id="listName" type="text" name="listName" placeholder="List name" required>
             </div>
             <div>
                 <label for="title">Title</label>
-                <input id="title" type="text" name="title" placeholder="Title">
+                <input id="title" type="text" name="title" placeholder="Title" required>
             </div>
             <div>
                 <label for="description">Description</label>
@@ -39,7 +39,7 @@
             </div>
             <div>
                 <label for="dueDate">Due Date</label>
-                <input id="dueDate" type="date" name="dueDate">
+                <input id="dueDate" type="date" name="dueDate" required>
             </div>
             <div>
                 <label for="priority">Priority</label>
@@ -57,7 +57,7 @@
                 <button>Submit</button>
             </div>
             <div>
-                <button type="button" id="close-todos-dialog">Close</button>
+                <button type="button" class="close">Close</button>
             </div>
         </form>
     </dialog>

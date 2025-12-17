@@ -1,18 +1,19 @@
 import "./styles.css";
 import DataManager from "./dataManager";
-import { FormHandler, DialogHandler } from "./formHandler";
+import { FormHandler, DialogHandler, TaskHandler } from "./formHandler";
 import { ListManager, DialogRenderer } from "./render";
 
 const events = {
     lists: {
+        container: "#lists-container",
         dialog: "#list-dialog",
         showDialogBtn: "#show-lists-dialog",
-        closeDialogBtn: "#close-lists-dialog",
+        form: "#todo-list-form",
     },
     todos: {
         dialog: "#todos-dialog",
         showDialogBtn: "#show-todos-dialog",
-        closeDialogBtn: "#close-todos-dialog",
+        form: "#todo-form",
     }
 }
 
@@ -68,9 +69,11 @@ class TodoItemCreationHandler extends FormHandler {
 }
 
 const dataManager = new DataManager();
-const listManager = new ListManager(dataManager, "#lists-container");
-const listsDialogHandler = new DialogHandler(events.lists.showDialogBtn, events.lists.dialog, events.lists.closeDialogBtn);
-const todosDialogHandler = new DialogHandler(events.todos.showDialogBtn, events.todos.dialog, events.todos.closeDialogBtn);
+const listManager = new ListManager(dataManager, events.lists.container);
 const dialogRenderer = new DialogRenderer();
-const listFormHandler = new ListCreationHandler("#todo-list-form", events.lists.dialog, events.todos.dialog, dataManager, listManager);
-const TodoFormHandler = new TodoItemCreationHandler("#todo-form", events.lists.dialog, events.todos.dialog, dataManager, listManager);
+
+const listsDialogHandler = new DialogHandler(events.lists.showDialogBtn, events.lists.dialog, dialogRenderer, events.lists.form);
+const todosDialogHandler = new DialogHandler(events.todos.showDialogBtn, events.todos.dialog, dialogRenderer, events.todos.form);
+const taskHandler = new TaskHandler(dataManager, listManager);
+const listFormHandler = new ListCreationHandler(events.lists.form, events.lists.dialog, events.todos.dialog, dataManager, listManager);
+const TodoFormHandler = new TodoItemCreationHandler(events.todos.form, events.lists.dialog, events.todos.dialog, dataManager, listManager);
