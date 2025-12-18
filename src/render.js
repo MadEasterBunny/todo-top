@@ -1,6 +1,7 @@
 export class ListManager {
-    constructor(dataManager, container, allTasks) {
+    constructor(dataManager, sideBar, container, allTasks) {
         this.dataManager = dataManager;
+        this.sideBar = document.querySelector(sideBar);
         this.container = document.querySelector(container);
         this.allTasks = allTasks;
         this.init();
@@ -17,7 +18,35 @@ export class ListManager {
         }
     }
 
-    render() {
+    //render each of the following
+    //sidebar with lists and todos(name only)
+    //all lists
+    //individual lists (includes all todos)
+
+    renderSideBar() {
+        const lists = this.dataManager.getLists();
+        this.sideBar.replaceChildren();
+        lists.forEach(item => {
+            const list = document.createElement("div");
+            list.classList.add("list-item");
+            list.id = item.id;
+            list.innerHTML = `
+            <h2>${item.name}</h2>`
+            
+            if(item.tasks.length > 0) {
+                list.innerHTML += `<div class="taskListContainer">${item.tasks.map(task => 
+                `<div id="${task.id}" class="todo-item">
+                <h3 class="title">${task.title}</h3>
+                </div>`
+            ).join("")}</div>`
+            } else {
+                list.innerHTML += `No tasks`
+            }
+            this.sideBar.appendChild(list);
+        });
+    }
+
+    renderLists() {
         const lists = this.dataManager.getLists();
         this.container.replaceChildren();
         lists.forEach(item => {
@@ -25,7 +54,26 @@ export class ListManager {
             list.classList.add("list-item");
             list.id = item.id;
             list.innerHTML = `
-            <h2>${item.name}</h2>`
+            <h2>${item.name}</h2>
+            <span>${item.tasks.length}</span>`;
+            this.container.appendChild(list);
+        });
+        //Create layout for when a list is clicked
+        //List name
+        //Todos
+        //*The entire container will display the contents, so be sure to update code to fit this specification
+    }
+
+    renderListsAndTodos() {
+        const lists = this.dataManager.getLists();
+        this.container.replaceChildren();
+        lists.forEach(item => {
+            const list = document.createElement("div");
+            list.classList.add("list-item");
+            list.id = item.id;
+            list.innerHTML = `
+            <h2>${item.name}</h2>
+            <span>${item.tasks.length}</span>`
             if(item.name !== this.allTasks) {
                 list.innerHTML += `<button class="remove" data-type="list">Remove</button>`
             }
@@ -51,6 +99,11 @@ export class ListManager {
             }
             this.container.appendChild(list);
         })
+    }
+
+    render() {
+        this.renderSideBar();
+        this.renderLists();
     }
 }
 

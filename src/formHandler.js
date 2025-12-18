@@ -1,3 +1,18 @@
+export class PageLayoutHandler {
+    constructor() {
+
+    }
+
+    handleClick(e) {
+        //Change display of container to show individual list and tasks page
+        //** Will need to create methods that display the main page and individual pages as well as a return button
+    }
+
+    render() {
+
+    }
+}
+
 export class FormHandler {
     constructor(formId) {
         this.form = document.querySelector(formId);
