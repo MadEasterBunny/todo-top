@@ -1,5 +1,13 @@
 import { getStorage, populateStorage } from "./localStorage";
 
+class TodoList {
+    constructor(name) {
+        this.id = crypto.randomUUID();
+        this.name = name;
+        this.tasks = [];
+    }
+}
+
 export default class DataManager {
     constructor() {
         const savedData = getStorage("dataStorage");
@@ -11,7 +19,7 @@ export default class DataManager {
     }
 
     addList(name) {
-        const newList = { id: crypto.randomUUID(), name: name, tasks: [] };
+        const newList = new TodoList(name);
         const listObj = this.dataStorage.find(item => item.name.toLowerCase() === name.toLowerCase());
 
         if(listObj) {
@@ -24,15 +32,12 @@ export default class DataManager {
         }
     }
 
-    //Need to add list removal button and eventlistener and check to see if this works
     removeList(listId) {
-        for (lists of this.dataStorage) {
-            const idx = lists.findIndex(list => list.id === listId);
-            if(inx !== -1) {
-                lists.splice(idx, 1);
-                this.saveToDisk();
-                return true;
-            }
+        const idx = this.dataStorage.findIndex(item => item.id === listId);
+        if(idx !== -1) {
+            this.dataStorage.splice(idx, 1);
+            this.saveToDisk();
+            return true;
         }
         console.error(`List with id "${listId}" not found.`);
         return false;

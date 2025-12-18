@@ -69,7 +69,7 @@ class TodoItemCreationHandler extends FormHandler {
 }
 
 const dataManager = new DataManager();
-const listManager = new ListManager(dataManager, events.lists.container);
+const listManager = new ListManager(dataManager, events.lists.container, "All Tasks");
 const dialogRenderer = new DialogRenderer();
 
 const listsDialogHandler = new DialogHandler(events.lists.showDialogBtn, events.lists.dialog, dialogRenderer, events.lists.form);

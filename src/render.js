@@ -1,7 +1,8 @@
 export class ListManager {
-    constructor(dataManager, container) {
+    constructor(dataManager, container, allTasks) {
         this.dataManager = dataManager;
         this.container = document.querySelector(container);
+        this.allTasks = allTasks;
         this.init();
         this.render();
     }
@@ -10,7 +11,7 @@ export class ListManager {
         const listItems = this.dataManager.getLists();
         const exists = listItems.some(list => list.name === "All Tasks")
         if(!exists) {
-            this.dataManager.addList("All Tasks");
+            this.dataManager.addList(this.allTasks);
         } else {
             return
         }
@@ -25,6 +26,9 @@ export class ListManager {
             list.id = item.id;
             list.innerHTML = `
             <h2>${item.name}</h2>`
+            if(item.name !== this.allTasks) {
+                list.innerHTML += `<button class="remove" data-type="list">Remove</button>`
+            }
             
             if(item.tasks.length > 0) {
                 list.innerHTML += `<h3>Tasks</h3>
@@ -41,7 +45,7 @@ export class ListManager {
                 <p class="notes">${task.notes}</p>
                 </div>
                 </div>
-                <button class="remove">Remove</button>
+                <button class="remove" data-type="todo">Remove</button>
                 </div>`
             ).join("")}</div>`
             }

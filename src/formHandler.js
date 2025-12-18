@@ -1,6 +1,3 @@
-import DataManager from "./dataManager";
-import { ListManager, DialogRenderer } from "./render";
-
 export class FormHandler {
     constructor(formId) {
         this.form = document.querySelector(formId);
@@ -55,8 +52,15 @@ export class TaskHandler {
     }
 
     remove(e) {
-        const todoId = e.target.closest(".todo-item").id;
-        this.dataManager.removeFromList(todoId);
+        const type = e.target.dataset.type;
+        const listId = e.target.closest(".list-item").id;
+        
+        if(type === "list") {
+            this.dataManager.removeList(listId);
+        } else {
+            const todoId = e.target.closest(".todo-item").id;
+            this.dataManager.removeFromList(todoId);
+        }
         this.listManager.render();
     }
 }
