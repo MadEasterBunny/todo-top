@@ -1,6 +1,6 @@
 import "./styles.css";
 import DataManager from "./dataManager";
-import { FormHandler, DialogHandler, TaskHandler } from "./formHandler";
+import { PageLayoutHandler, FormHandler, DialogHandler, TaskHandler } from "./formHandler";
 import { ListManager, DialogRenderer } from "./render";
 
 const events = {
@@ -71,6 +71,8 @@ class TodoItemCreationHandler extends FormHandler {
 const dataManager = new DataManager();
 const listManager = new ListManager(dataManager, "aside", events.lists.container, "All Tasks");
 const dialogRenderer = new DialogRenderer();
+
+const listClickHandler = new PageLayoutHandler(listManager);
 
 const listsDialogHandler = new DialogHandler(events.lists.showDialogBtn, events.lists.dialog, dialogRenderer, events.lists.form);
 const todosDialogHandler = new DialogHandler(events.todos.showDialogBtn, events.todos.dialog, dialogRenderer, events.todos.form);

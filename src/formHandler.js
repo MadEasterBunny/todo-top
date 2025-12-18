@@ -1,10 +1,15 @@
 export class PageLayoutHandler {
-    constructor() {
-
+    constructor(listManager) {
+        this.listManager = listManager;
+        this.listItem = document.querySelectorAll(".list-item");
+        this.listItem.forEach(item => {
+            item.addEventListener("click", this.handleClick.bind(this));
+        })
     }
 
     handleClick(e) {
-        //Change display of container to show individual list and tasks page
+        const id = e.target.closest(".list-item").id;
+        this.listManager.renderListsAndTodos(id);
         //** Will need to create methods that display the main page and individual pages as well as a return button
     }
 
