@@ -67,6 +67,10 @@ export class ListManager {
     renderListsAndTodos(id) {
         const lists = this.dataManager.getLists();
         this.container.replaceChildren();
+        const returnBtn = document.createElement("button");
+        returnBtn.classList.add("return");
+        returnBtn.textContent = "Return";
+        this.container.appendChild(returnBtn);
         lists.forEach(list => {
             if(list.id === id) {
                 const listItem = document.createElement("div");

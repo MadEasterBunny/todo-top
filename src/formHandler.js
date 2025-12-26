@@ -1,20 +1,17 @@
 export class PageLayoutHandler {
     constructor(listManager) {
         this.listManager = listManager;
-        this.listItem = document.querySelectorAll(".list-item");
-        this.listItem.forEach(item => {
-            item.addEventListener("click", this.handleClick.bind(this));
-        })
+        document.addEventListener("click", (e) => {
+            const listItem = e.target.closest(".list-item");
+            if(listItem) {
+                this.handleClick(listItem.id);
+            }
+
+        });
     }
 
-    handleClick(e) {
-        const id = e.target.closest(".list-item").id;
+    handleClick(id) {
         this.listManager.renderListsAndTodos(id);
-        //** Will need to create methods that display the main page and individual pages as well as a return button
-    }
-
-    render() {
-
     }
 }
 
@@ -67,8 +64,14 @@ export class TaskHandler {
         document.addEventListener("click", (e) => {
             if(e.target.matches(".remove")) {
                 this.remove(e);
+            } else if(e.target.matches(".return")) {
+                this.returnHome();
             }
         })
+    }
+
+    returnHome() {
+        this.listManager.render();
     }
 
     remove(e) {
@@ -83,4 +86,10 @@ export class TaskHandler {
         }
         this.listManager.render();
     }
+}
+
+export function returnHome() {
+    const returnBtn = document.querySelector(".return");
+
+    returnBtn.addEventListener("click", )
 }

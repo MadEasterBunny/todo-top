@@ -67,7 +67,7 @@ aside {
 }
 
 aside .list-item {
-
+  cursor: pointer;
 }
 
 .form-container {
@@ -99,6 +99,7 @@ form {
   background-color: aliceblue;
   border-radius: 10px;
   padding: 10px;
+  cursor: pointer;
 }
   
 #lists-container .list-item h2 {
